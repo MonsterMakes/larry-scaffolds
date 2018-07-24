@@ -1,0 +1,10 @@
+syntax: glob
+dist
+build
+docs
+node_modules
+npm-debug.log
+working_dir
+coverage
+.idea
+.sass-cache

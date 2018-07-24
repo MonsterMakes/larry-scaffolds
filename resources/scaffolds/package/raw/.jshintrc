@@ -1,0 +1,17 @@
+{
+  "node": true,
+  "browser": true,
+  "esversion": 6,
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "latedef": "nofunc",
+  "noarg": true,
+  "undef": true,
+  "unused": "vars",
+  "strict": true,
+  "trailing": true,
+  "smarttabs": true,
+  "mocha": true,
+  "varstmt": true
+}
