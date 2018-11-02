@@ -1,4 +1,5 @@
 node_modules
+**/WORKING_DIRECTORY/
 .history/
 .nyc_output/
 coverage/

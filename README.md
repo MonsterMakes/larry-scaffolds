@@ -2,9 +2,11 @@
 #larry-scaffolds
 
 ##Description
-***Update This*** Add the intent of your package here...
+larry-scaffolds exposes common scaffolding tools and source generators in addition to some standard larry style scaffolds.
 
 ##RELEASE NOTES
 
 ##TODO
 1. Figure out a better way to deal with Global registrations of Helpers etc...
+2. fix repository portion of git-node scaffold
+3. build out webapp scaffold

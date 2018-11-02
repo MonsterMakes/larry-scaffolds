@@ -8,11 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Larry",
-            "program": "${workspaceFolder}/bin/larry.js",
+            "program": "${workspaceFolder}/bin/larry-scaffolds.js",
             "console": "integratedTerminal",
             "args":[
-                "--use",
-                "/Users/monster/MonsterDrive/Projects/larry-scaffolds/src/cli/default/git-node-project/nodeProject.cli.js"
+				"--vulgar"
             ]
         },
         {

@@ -2,6 +2,8 @@
   "name": "{{projectName}}",
   "description": "{{projectDescription}}",
   "version": "{{projectVersion}}",
+  "publishConfig": {
+  },
   "bin": {
   },
   "repository": {
@@ -12,7 +14,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "lint": "echo '=> Linting' && eslint **/*.js",
+	"lint-fix": "echo '=> Fixing Linting errors...' && eslint {src,test}/**/*.js --fix",
+    "lint": "echo '=> Linting' && eslint {src,test}/**/*.js",
     "test": "echo '=> Running Tests' && mocha -u tdd --timeout 60000 --colors test/**/*.spec.js",
     "test-coverage": "echo '=> Running Tests w/ Coverage' && nyc mocha test/**/*.spec.js",
     "test-coverage:http": "echo '=> Running Tests w/ Coverage' && nyc --reporter=html mocha test/**/*.spec.js",

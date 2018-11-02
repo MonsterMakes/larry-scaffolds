@@ -1,12 +1,11 @@
 'use strict';
-const BaseScaffolder = require("./BaseScaffolder");
-const Handlebars = require("handlebars");
-const glob = require("glob");
-const fs = require("fs-extra");
-const pathUtils = require("path");
-const RawFileSourceGenerator = require("../generators/RawFileSourceGenerator");
-const HandlebarsSourceGenerator = require("../generators/HandlebarsFileSourceGenerator");
-const _ = require('lodash');
+const BaseScaffolder = require('./BaseScaffolder');
+const Handlebars = require('handlebars');
+const glob = require('glob');
+const fs = require('fs-extra');
+const pathUtils = require('path');
+const RawFileSourceGenerator = require('../generators/RawFileSourceGenerator');
+const HandlebarsSourceGenerator = require('../generators/HandlebarsFileSourceGenerator');
 
 class FileScaffolder extends BaseScaffolder{
 	constructor(scaffoldDir, scaffoldData, destinationDir){
@@ -16,21 +15,21 @@ class FileScaffolder extends BaseScaffolder{
 		this._scaffoldData = scaffoldData;
 	}
 	/***********************************************/
-    /*** START OVERIDDEN METHODS ***/
-    /***********************************************/
+	/*** START OVERIDDEN METHODS ***/
+	/***********************************************/
 	/**
      * This will scaffold your source.
      * @returns {Promise|undefined} If a Promise is returned this method is asynchronous.
      */
 	scaffold(){
-		let fileNames = glob.sync("**/*",{
+		let fileNames = glob.sync('**/*',{
 			cwd: this._scaffoldDir,
 			dot: true
-        });
+		});
 
 		let proms = [];
 
-        fileNames.forEach((relativePath)=>{
+		fileNames.forEach((relativePath)=>{
 			let fullPath = `${this._scaffoldDir}${pathUtils.sep}${relativePath}`;
 			let stats = fs.statSync(fullPath);
 			if(stats.isDirectory()){
@@ -49,7 +48,7 @@ class FileScaffolder extends BaseScaffolder{
 					path: relativePath
 				};
 				//check the file type
-				if(filename.startsWith("_")){
+				if(filename.startsWith('_')){
 					destinationPath = pathUtils.dirname(destinationPath)+pathUtils.sep+filename.substr(1);
 					generatorConfig.path = destinationPath;
 					generatorKlass = HandlebarsSourceGenerator;
@@ -67,7 +66,7 @@ class FileScaffolder extends BaseScaffolder{
 							`${this._destinationDir}${pathUtils.sep}${generator.path}`,
 							generator.sourceCode,
 							{
-								encoding: "utf8",
+								encoding: 'utf8',
 								mode: stats.mode
 							}
 						);
@@ -79,7 +78,7 @@ class FileScaffolder extends BaseScaffolder{
 	/***********************************************/
 	/*** END OVERIDDEN METHODS ***/
 	/*** START PUBLIC METHODS ***/
-    /***********************************************/
+	/***********************************************/
 	get scaffoldDir(){
 		return this._scaffoldDir;
 	}
@@ -113,6 +112,6 @@ class FileScaffolder extends BaseScaffolder{
 	}
 	/***********************************************/
 	/*** END PRIVATE METHODS ***/
-    /***********************************************/
+	/***********************************************/
 }
 module.exports = FileScaffolder;
