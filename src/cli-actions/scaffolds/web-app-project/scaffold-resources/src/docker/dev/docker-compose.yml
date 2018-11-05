@@ -1,0 +1,19 @@
+version: '3'
+services:
+  larry-proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    ports:
+      - '8000:80'
+      - '40801:40801'
+    links: # Link services to access http://larry-web and  http://larry-api inside the container
+      - larry-web:larry-web
+    depends_on:
+      - "larry-web"
+  larry-web:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    volumes: 
+      - ./../../../:/usr/src/app

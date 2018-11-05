@@ -7,9 +7,9 @@
   "bin": {
   },
   "repository": {
-    {{#if githubProject}}
+    {{#if projectGitUrl}}
     "type": "git",
-    "url": "https://github.com/{{githubUser}}/{{projectName}}"
+    "url": "{{projectGitUrl}}"
     {{/if}}
   },
   "license": "MIT",

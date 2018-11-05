@@ -1,15 +1,15 @@
 'use strict';
-const CliModule = require('@monstermakes/larry-cli').CliModule;
+const CliAction = require('@monstermakes/larry-cli').CliAction;
 const player = require('play-sound')({});
-const glob = require("glob");
-const _ = require("lodash");
+const glob = require('glob');
+const _ = require('lodash');
 
 const getRandomNoise = ()=>{
 	let fileNames = glob.sync(`${__dirname}/mp3s/**/*`,{});
 	return _.sample(fileNames);
 };
 
-class VulgarCli extends CliModule {
+class VulgarCli extends CliAction {
 	constructor(vorpalInstance){
 		super(vorpalInstance);
 		this._init();

@@ -4,7 +4,7 @@ const semver = require('semver');
 const npmSafeName = require('npm-safe-name');
 const os = require('os');
 const pathUtils = require('path');
-const FileScaffolder = require('../../scaffolders/FileScaffolder');
+const FileScaffolder = require('../../../scaffolders/FileScaffolder');
 
 class NodeProjectCli extends CliModule {
 	constructor(vorpalInstance){
@@ -46,6 +46,16 @@ class NodeProjectCli extends CliModule {
 						type: 'input',
 						name: 'projectDescription',
 						message: 'What is the purpose of your project?'
+					},
+					{
+						type: 'input',
+						name: 'projectGitUrl',
+						message: 'What is the url to your git repository?',
+						default: (answers)=>{
+							let githubProjPath = answers.projectName.replace(/^@/,'');
+							let url = `https://github.com/${githubProjPath}`;
+							return url;
+						}
 					},
 					{
 						type: 'input',
