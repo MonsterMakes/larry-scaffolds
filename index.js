@@ -3,7 +3,7 @@ module.exports.cliActions = {
 		GitNodeProject: require('./src/cli-actions/scaffolds/git-node-project/NodeProject.cli-action'),
 		WebAppProject: require('./src/cli-actions/scaffolds/web-app-project/WebApp.cli-action')
 	},
-	Vulgar: require('./src/cli-actions/Vulgar/Vulgar.cli-action')
+	Vulgar: require('./src/cli-actions/vulgar/Vulgar.cli-action')
 };
 module.exports.cliModules = {
 	Scaffolds: require('./src/cli-modules/Scaffolds.cli-module')
