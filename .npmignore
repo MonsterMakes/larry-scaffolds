@@ -1,9 +1,0 @@
-build/
-dist/
-node_modules/
-*[tT]est/
-examples/
-.*
-npm-debug.log
-jsdoc.conf.json
-Gruntfile.js
