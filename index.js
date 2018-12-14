@@ -1,7 +1,9 @@
 module.exports.cliActions = {
 	scaffolds: {
 		GitNodeProject: require('./src/cli-actions/scaffolds/git-node-project/NodeProject.cli-action'),
-		WebAppProject: require('./src/cli-actions/scaffolds/web-app-project/WebApp.cli-action')
+		WebAppProject: require('./src/cli-actions/scaffolds/web-app-project/WebApp.cli-action'),
+		ExpressApiProject: require('./src/cli-actions/scaffolds/express-api-project/ExpressApi.cli-action'),
+		WebSocketProject: require('./src/cli-actions/scaffolds/ws-project/WebSocket.cli-action')
 	},
 	Vulgar: require('./src/cli-actions/vulgar/Vulgar.cli-action')
 };
