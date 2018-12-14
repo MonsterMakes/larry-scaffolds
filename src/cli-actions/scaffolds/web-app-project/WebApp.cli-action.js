@@ -26,7 +26,6 @@ class WebAppProjectCli extends CliModule {
 				
 				this.log(`Scaffolding base directory: ${baseDir}`);
 
-				//projectName
 				this.prompt([
 					{
 						type: 'input',
@@ -49,16 +48,6 @@ class WebAppProjectCli extends CliModule {
 					},
 					{
 						type: 'input',
-						name: 'projectGitUrl',
-						message: 'What is the url to your git repository?',
-						default: (answers)=>{
-							let githubProjPath = answers.projectName.replace(/^@/,'');
-							let url = `https://github.com/${githubProjPath}`;
-							return url;
-						}
-					},
-					{
-						type: 'input',
 						name: 'projectVersion',
 						message: 'What is your projects starting semver?',
 						default: '0.0.1',
@@ -71,7 +60,34 @@ class WebAppProjectCli extends CliModule {
 							}
 						}
 					},
+					{
+						type: 'input',
+						name: 'projectOwner',
+						message: `What is the project owner's github username?`,
+						default: '@lockenj'
+					},
+					{
+						type: 'input',
+						name: 'appName',
+						message: 'What is the name of this app? Please use snake case (my-name).',
+						default: 'web'
+					},
+					{
+						type: 'input',
+						name: 'portNumber',
+						message: 'What port do you want to expose the server on?',
+						default: '8080'
+					}
 				]).then(answers => {
+					if(answers.projectName.startsWith('@')){
+						let split = answers.projectName.slice(1).split('/');
+						answers.githubProjectUser = split[0];
+						answers.githubProjectName = split[1];
+					}
+					else{
+						answers.githubProjectUser = answers.projectOwner;
+						answers.githubProjectName = answers.projectName;
+					}
 					let scfldr = new FileScaffolder(
 						`${__dirname}/scaffold-resources`, 
 						answers, 

@@ -4,13 +4,14 @@ const chai = require('chai');
 const should = chai.should(); // eslint-disable-line 
 const expect = chai.expect; // eslint-disable-line 
 
-const util = require('../src/lib/util'); // eslint-disable-line 
-
-
 const TEST_NAME = 'Test Example';
-
+class KlassUnderTest {
+	static getTrue(){
+		return true;
+	}
+}
 describe(TEST_NAME, () => {
 	it('should Pass',() => {
-		util.getTrue().should.be.eql(true);
+		KlassUnderTest.getTrue().should.be.eql(true);
 	});
 });

@@ -1,10 +1,11 @@
-<a href="https://www.npmjs.com/org/{{projectName}}"><img alt="{{projectName}}" src="https://nodei.co/npm/{{projectName}}.png"/></a>
-#{{projectName}}
+# {{projectName}}
 
-##Description
+[![https://nodei.co/npm/{{projectName}}.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/{{projectName}}.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/{{projectName}})
+
+
+## Description
 ***Update This*** Add the intent of your package here...
 
-##RELEASE NOTES
 
-##TODO
+## TODO
 1. TODO HERE

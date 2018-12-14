@@ -1,6 +1,0 @@
-version: '3'
-services:
-  larry-web:
-    image: $WebImageTag 
-    ports:
-      - '8000:80'

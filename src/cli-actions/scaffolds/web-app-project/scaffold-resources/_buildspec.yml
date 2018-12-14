@@ -1,4 +1,4 @@
-#Expects AWS image aws/codebuild/nodejs:8.11.0
+#Expects AWS image aws/codebuild/nodejs:10.1.0
 version: 0.2
 env:
   variables:
@@ -6,7 +6,7 @@ env:
     SOURCE_BRANCH: "master"
   parameter-store:
     NPM_TOKEN: "larry-infrastructure-npm-token"
-    SLACK_INCOMING_WEB_HOOK: "larry-infrastructure-engineering-slack-incoming-web-hook"
+    SLACK_INCOMING_WEB_HOOK: "larry-infrastructure-slack-incoming-web-hook"
     JIRA_USER: "larry-infrastructure-jira-user"
     JIRA_PASS: "larry-infrastructure-jira-pass"
     GIT_USER: "larry-infrastructure-git-user"
@@ -19,7 +19,7 @@ phases:
       - git config --global credential.helper 'store' && echo "https://${GIT_USER}:${GIT_PASS}@github.com" > ~/.git-credentials
       # clone the repo
       - echo => Setting up git credentials
-      - git clone {{projectGitUrl}} cloned-repo
+      - git clone https://github.com/{{githubProjectUser}}/{{githubProjectName}} cloned-repo
       - cd cloned-repo
       - git checkout ${SOURCE_BRANCH}
       # setup image:tag name for docker
@@ -38,7 +38,7 @@ phases:
       - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL).host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL}\n" >> ~/.npmrc
       - npm install
     finally:
-      - if [ $CODEBUILD_BUILD_SUCCEEDING -eq 0 ]; then npx coin slack post-build-failure; fi
+      - if [ $CODEBUILD_BUILD_SUCCEEDING -eq 0 ]; then npx larry slack post-build-failure; fi
   #skipped if install, or pre_build fails
   build:
     commands:
@@ -48,10 +48,10 @@ phases:
       - echo => Pushing Docker Image...
       - docker push $ECR_REGISTRY_URL/$DOCKER_IMAGE_TAG
       - echo => Updating associated JIRA Issues...
-      - npx coin jira move-issue deploy --git
+      - npx larry jira move-issue deploy --git
       - echo => Notifying team via slack...
-      - npx coin slack post-release --terminal
+      - npx larry slack post-release --terminal
   #skipped if install, or pre_build fails. This will run if build fails.
   post_build:
     finally:
-      - if [ $CODEBUILD_BUILD_SUCCEEDING -eq 0 ]; then npx coin slack post-build-failure; fi
+      - if [ $CODEBUILD_BUILD_SUCCEEDING -eq 0 ]; then npx larry slack post-build-failure; fi
