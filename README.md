@@ -76,3 +76,23 @@ The above command can be launched directly like so:
 larry scaffolds scaffold web
 ```
 ---
+
+## TODO
+1. Setup projects to be used together..
+	- docker compose additions
+2. Create Product Project
+	- cloud formation and deployment tools
+	
+### Scaffolds Express API TODOs
+1. Decide wether to validate responses or not. Currently responses are not validated.
+2. Incorporate Redis into API Server
+
+### Scaffolds WS TODOs
+1. Incorporate Service Method Discovery
+2. Standardize the WebSocket Messaging
+	- Synchronous Messages 
+		- used for RPC calls
+	- Streaming Messages
+		- Start / Initiate message
+		- Stream messages (Bi-Directional)
+		- Completion / Terminate message

@@ -18,7 +18,7 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"start": "echo '=> This is a terminal project and should not be published to npm! Exiting...' && exit 0",
+		"start": "echo '=> This is a library project and therefore has no server component. Exiting...' && exit 0",
 		"test": "echo '=> Verifying...' && npm run clean && npm run lint && npm run test-unit-coverage",
 		"readiness-check": "echo '=> Checking Readiness' && npm test",
 		"prepublishOnly": "npm test",

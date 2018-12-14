@@ -1,5 +1,5 @@
-.vscode/
-.history/
+.vscode/**
+.history
 node_modules/
 WORKING_DIRECTORY
 build/
@@ -11,4 +11,4 @@ coverage
 dist/
 npm-debug.log
 package-lock.json
-!.vscode/launch-template.json
+!*/launch-template.json
