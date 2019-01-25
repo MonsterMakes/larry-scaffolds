@@ -10,11 +10,13 @@ const globalSymbols = Object.getOwnPropertySymbols(globalSpace);
 /*************************************************************************************/
 process.on('unhandledRejection', (reason, p) => {
 	console.log('Unhandled Rejection at:', p, 'reason:', reason);
-	process.exit(-1);
+	console.error(`Api Server ({{serverName}}) exiting due to unhandledRejection...`);
+	process.exit(1);
 });
 process.on('uncaughtException', (err) => {
 	console.log('Uncaught Exception:', err);
-	process.exit(-1);
+	console.error(`Api Server ({{serverName}}) exiting due to uncaughtException...`);
+	process.exit(1);
 });
 /*************************************************************************************/
 /* END PROCESS UNHANDLED METHODS */

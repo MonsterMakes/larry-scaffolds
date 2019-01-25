@@ -1,7 +1,5 @@
 # {{projectName}}
 
-[![npm version](https://badge.fury.io/js/{{projectName}}.svg)](https://badge.fury.io/js/{{projectName}})
-
 [![https://nodei.co/npm/{{projectName}}.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/{{projectName}}.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/{{projectName}})
 
 

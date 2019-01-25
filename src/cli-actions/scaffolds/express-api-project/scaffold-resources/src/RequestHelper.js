@@ -16,6 +16,12 @@ class RequestHelper {
 	getRawRequest(){
 		return this._request;
 	}
+	get path(){
+		return this.getPath();
+	}
+	getPath(){
+		return this._request.path;
+	}
 	get params(){
 		return this.getParams();
 	}
@@ -82,26 +88,20 @@ class RequestHelper {
 		return this.getBasicAuth();
 	}
 	getBasicAuth(){
-		let result = undefined;
+		// parse login and password from headers
 		let authHeader = this.getAuthorization();
-		const CREDENTIALS_REGEXP = /^ *(?:[Bb][Aa][Ss][Ii][Cc]) +([A-Za-z0-9._~+/-]+=*) *$/;
-		const USER_PASS_REGEXP = /^([^:]*):(.*)$/;
-		// parse header
-		let match = CREDENTIALS_REGEXP.exec(authHeader);
+		const b64auth = (authHeader || '').split(' ')[1] || '';
+		const [username, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
-		if (match) {
-			// decode user pass
-			let decoded = Buffer.from(match[1], 'base64').toString();
-			let userPass = USER_PASS_REGEXP.exec(decoded);
-
-			if (userPass) {
-				result = {
-					username: userPass[1],
-					password: userPass[2]
-				};
-			}
+		if (username && password){
+			return {
+				username: username,
+				password: password
+			};
 		}
-		return result;
+		else{
+			return undefined;
+		}
 	}
 	/*********************************************************************/
 	/* END IMUTTABLE PROPERTIES & GETTERS */

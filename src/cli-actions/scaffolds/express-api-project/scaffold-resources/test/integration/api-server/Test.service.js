@@ -2,7 +2,9 @@
 
 class Test {
 	constructor(context){
-		this._apiServer = context.apiServer;
+		this._apiServer = context.ApiServer;
+		this._testInjectible = context.TestInjectable;
+		this._testInjectible.sayHi();
 	}
 	/**
 	 * @swagger
@@ -77,5 +79,103 @@ class Test {
 	testThrow(requestHelper,responseHelper){//eslint-disable-line
 		throw new Error('Another way to send a 400');
 	}
+	/**
+	 * @swagger
+	 * /test-post:
+	 *	 post:
+	 *     serviceMethod: Test.testPost
+	 *     description: Example to demonstrate a post with a payload
+	 *     requestBody:
+	 *       description: Example Post
+	 *       required: true
+	 *       content:
+	 *         application/json:
+	 *           schema:
+	 *             type: object
+	 *             required:
+	 *               - foo
+	 *             properties:
+	 *               foo:
+	 *                 type: string
+	 *               bar:
+	 *                 type: object
+	 *     responses:
+	 *       '200':
+	 *         description: pet response
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               required:
+	 *                 - hi
+	 *                 - data
+	 *               properties:
+	 *                 hi:
+	 *                   type: string
+	 *                 data:
+	 *                   type: object
+	 */
+	testPost(requestHelper,responseHelper){//eslint-disable-line
+		return {
+			hi: 'Mom',
+			data: requestHelper.getPayload()
+		};
+	}
+	/**
+	 * @swagger
+	 * /test-param/{id}:
+	 *	 get:
+	 *     serviceMethod: Test.testPathParam
+	 *     description: Example to demonstrate a post with a payload
+	 *     parameters:
+	 *       - name: id
+     *         in: path
+     *         description: ID of pet to use
+     *         required: true
+     *         schema:
+     *           items:
+     *             type: string
+	 *     responses:
+	 *       '200':
+	 *         description: pet response
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               required:
+	 *                 - id
+	 *                 - requestHelper
+	 *               properties:
+	 *                 hi:
+	 *                   type: string
+	 *                 requestHelper:
+	 *                   type: object
+	 */
+	testPathParam(requestHelper,responseHelper){//eslint-disable-line
+		return {
+			id: requestHelper.params.id,
+			requestHelper: requestHelper
+		};
+	}
+	/**
+	 * @swagger
+	 * /test-middleware:
+	 *	 get:
+	 *     serviceMethod: Test.testMiddlewareServiceMethod
+	 *     serviceMiddlewares:
+	 *       - Test.testMiddleware
+	 *     description: Example to demonstrate middleware that mutates the request
+	 */
+	testMiddlewareServiceMethod(requestHelper,responseHelper){//eslint-disable-line
+		return {
+			oldRequest: requestHelper._request.__oldRequest,
+			newRequest: requestHelper
+		};
+	}
 }
+
+Test.$context = {
+	'ApiServer': true,
+	'TestInjectable': {}
+};
 module.exports = Test;

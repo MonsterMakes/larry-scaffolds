@@ -1,6 +1,6 @@
 version: '3'
 services:
-  api:
+  {{serverName}}:
     container_name: dev-{{serverName}}
     build:
       context: ./

@@ -1,21 +1,14 @@
 version: '3'
 services:
-  api:
+  {{serverName}}:
     container_name: {{serverName}}
     image: $ApiImageTag 
     ports:
       - '{{portNumber}}:8080'
     networks:
-      - network
+      - larry-network
     environment:
-      - REDIS_HOST=redis
-  redis:
-    container_name: redis
-    image: 'redis'
-    ports:
-      - '6379:6379'
-    networks:
-      - network
+     
 networks:
-  network:
+  larry-network:
       driver: bridge
