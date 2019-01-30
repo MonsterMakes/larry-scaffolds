@@ -8,4 +8,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["node", "./src/bin/www"]
+CMD ["node", "/usr/src/app/index.js"]

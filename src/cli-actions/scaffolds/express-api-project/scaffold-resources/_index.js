@@ -3,19 +3,21 @@ const namespace = '{{serverName}}.api';
 const SINGLETON_KEY = Symbol.for(namespace);
 const globalSpace = global;
 
+const log = (require('./src/Logger')).getInstance();
+
 const ApiServer = require('./src/ApiServer');
 const globalSymbols = Object.getOwnPropertySymbols(globalSpace);
 /*************************************************************************************/
 /* START PROCESS UNHANDLED METHODS */
 /*************************************************************************************/
 process.on('unhandledRejection', (reason, p) => {
-	console.log('Unhandled Rejection at:', p, 'reason:', reason);
-	console.error(`Api Server ({{serverName}}) exiting due to unhandledRejection...`);
+	log.error('Unhandled Rejection at:', p, 'reason:', reason);
+	log.error(`Api Server ({{serverName}}) exiting due to unhandledRejection...`);
 	process.exit(1);
 });
 process.on('uncaughtException', (err) => {
-	console.log('Uncaught Exception:', err);
-	console.error(`Api Server ({{serverName}}) exiting due to uncaughtException...`);
+	log.error('Uncaught Exception:', err);
+	log.error(`Api Server ({{serverName}}) exiting due to uncaughtException...`);
 	process.exit(1);
 });
 /*************************************************************************************/

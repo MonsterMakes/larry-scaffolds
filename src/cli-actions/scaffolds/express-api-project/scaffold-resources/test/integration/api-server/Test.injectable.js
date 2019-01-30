@@ -14,7 +14,7 @@ class TestInjectable extends BaseInjectable{
 	/* START PUBLIC API METHODS */
 	/*************************************************************************************/
 	sayHi(){
-		console.log('hi');
+		//just checking that this method can be called, no need to do anything
 	}
 	_handleStart(){
 		//return Promise.resolve();

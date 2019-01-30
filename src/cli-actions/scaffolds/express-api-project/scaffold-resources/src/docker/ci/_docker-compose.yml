@@ -9,8 +9,9 @@ services:
     ports:
       - '{{portNumber}}:8080'
     networks:
-      - larry-network
+      - cobo-network
     environment:
+      - API_PORT=8080
 networks:
-  larry-network:
+  {{serverName}}-network:
       driver: bridge

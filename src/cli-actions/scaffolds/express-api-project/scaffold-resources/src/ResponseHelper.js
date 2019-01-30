@@ -64,6 +64,17 @@ class ResponseHelper {
 		return this.send(mergedPayload, httpResponseStatusCode);
 	}
 	/**
+	 * Used to provide json successful responsess
+	 * @param {object} [payload] - An optional object to be serialized in the response, all properties will be flattened into the response object.
+	 * @param {string} [msg] - An optional string to be provided under the msg property indicating a message to be used for troubleshooting or logging purposes.
+	 * @param {integer} [httpResponseStatusCode=200] - An optional http response code to be used instead of 200.
+	 */
+	respondWithAuthorizationHeader(authHeaderValue=undefined,payload=undefined, httpResponseStatusCode=200){
+		this.rawResponse.set('Authorization',authHeaderValue);
+		this.rawResponse.status(httpResponseStatusCode);
+		this.rawResponse.send(payload);
+	}
+	/**
 	 * Used to provide json error responsess
 	 * @param {Error} error - The Javascript Error that caused the issue. This will set the errorCode property to JsError, errorMsg property to error.message and if error.stackTrace is found the stackTrace property will be set.
 	 * @param {object} [additionalProps] - An optional object to be serialized in the response for further context/error information, all properties will be flattened into the response object.

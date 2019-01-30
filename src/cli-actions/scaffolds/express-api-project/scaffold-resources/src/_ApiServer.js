@@ -1,5 +1,6 @@
 'use strict';
 
+const log = (require('./src/Logger')).getInstance();
 const _ = require('lodash');
 const http = require('http');
 const Express =  require('express');
@@ -207,12 +208,12 @@ class ApiServer{
 				classMap[instanceName] = instance;
 			}
 			catch(e){
-				console.error(`Encountered an error when attempting to load class (${pathToClass}).`);
+				log.error(`Encountered an error when attempting to load class (${pathToClass}).`);
 				if(e.hasOwnProperty('errorCode') && e.errorCode === 'FailedToLoadInjectable'){
-					console.error(e.errorMsg);
+					log.error(e.errorMsg);
 				}
 				else{
-					console.error('Error encountered ->',e);
+					log.error('Error encountered ->',e);
 				}
 				throw e;
 			}
@@ -337,7 +338,7 @@ class ApiServer{
 																return this._loadedMiddlewares[serviceMiddlewareClassName][serviceMiddlewareMethodName](requestHelper,responseHelper);
 															})
 															.catch((e)=>{
-																console.error(`Api Server ({{serverName}}) failed to execute middleware (${middlewareName}).`,e);
+																log.error(`Api Server ({{serverName}}) failed to execute middleware (${middlewareName}).`,e);
 																//pass the error along.
 																return Promise.reject(e);
 															});
@@ -449,7 +450,7 @@ class ApiServer{
 				let err = e;
 				if(e.hasOwnProperty('failedIterable')){
 					let injectibleName = e.failedIterable.constructor.name;
-					console.error(`Injectible (${injectibleName}) failed to ${classMethodName}()`,e.failure);
+					log.error(`Injectible (${injectibleName}) failed to ${classMethodName}()`,e.failure);
 					err = e.failure;
 				}
 				return Promise.reject(err);
@@ -510,7 +511,7 @@ class ApiServer{
 							this._setStatus(this.STATUS_STATES.CONNECTED);
 						})
 						.catch((e)=>{
-							console.error(`Api Server ({{serverName}}) failed to startup`,e);
+							log.error(`Api Server ({{serverName}}) failed to startup`,e);
 							this._setStatus(this.STATUS_STATES.START_FAILED);
 							return Promise.reject(e);
 						});
@@ -530,7 +531,7 @@ class ApiServer{
 				default:
 					this._setStatus(this.STATUS_STATES.SHUTTING_DOWN);
 					if(err){
-						console.error(`Api Server ({{serverName}}) encountered a failure scenario and is being shutdown...`,err);
+						log.error(`Api Server ({{serverName}}) encountered a failure scenario and is being shutdown...`,err);
 					}
 					this._shuttingdownProm = Promise.resolve()
 						.then(()=>{
@@ -551,12 +552,12 @@ class ApiServer{
 							return this._shutdownInjectables();
 						})
 						.catch((e)=>{
-							console.error(`Api Server ({{serverName}}) failed to shutdown, please make sure things do not need atttending...`,e);
+							log.error(`Api Server ({{serverName}}) failed to shutdown, please make sure things do not need atttending...`,e);
 							this._setStatus(this.STATUS_STATES.SHUTDOWN_FAILED);
 						})
 						//FINALLY
 						.then(()=>{
-							console.info(`Api Server ({{serverName}}) exiting...`);
+							log.info(`Api Server ({{serverName}}) exiting...`);
 							if(!exitCode){	
 								if(err){
 									process.exit(1);
@@ -585,15 +586,15 @@ class ApiServer{
 		if (error && error.syscall === 'listen') {
 			switch (error.code) {
 			case 'EACCES':
-				console.error(`Api Server ({{serverName}}) on Address: ${address} and port : ${address.port} requires elevated privileges.`);
+				log.error(`Api Server ({{serverName}}) on Address: ${address} and port : ${address.port} requires elevated privileges.`);
 				this.shutdown(error,1);
 				break;
 			case 'EADDRINUSE':
-				console.error(`Api Server ({{serverName}}) on Address: ${address} and port : ${address.port} cannot start port is already in use.`);
+				log.error(`Api Server ({{serverName}}) on Address: ${address} and port : ${address.port} cannot start port is already in use.`);
 				this.shutdown(error,1);
 				break;
 			default:
-				console.error(`Api Server ({{serverName}}) internal http server encountered an error.`,error);
+				log.error(`Api Server ({{serverName}}) internal http server encountered an error.`,error);
 				this.shutdown(error,1);
 				throw error;
 			}
@@ -605,7 +606,7 @@ class ApiServer{
 	_onListening(){
 		const addressInfo = this._server.address();
 		this._setStatus(this.STATUS_STATES.LISTENING);
-		console.info(`Api Server ({{serverName}}) listening on Address: ${addressInfo.address} and port : ${addressInfo.port}`);
+		log.info(`Api Server ({{serverName}}) listening on Address: ${addressInfo.address} and port : ${addressInfo.port}`);
 	}
 	/*************************************************************************************/
 	/* END HTTP SERVER HANDLER METHODS */

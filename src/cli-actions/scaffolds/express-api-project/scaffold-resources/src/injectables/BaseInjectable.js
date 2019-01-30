@@ -1,4 +1,5 @@
 'use strict';
+const log = (require('./src/Logger')).getInstance();
 const _ = require('lodash');
 //load underscore string library
 _.mixin(require('underscore.string').exports());
@@ -69,7 +70,7 @@ class BaseInjectable {
 							this._setStatus(this.STATUS_STATES.STARTED);
 						})
 						.catch((e)=>{
-							console.error(`Injectable (${this.constructor.name}) failed to startup`,e);
+							log.error(`Injectable (${this.constructor.name}) failed to startup`,e);
 							this._setStatus(this.STATUS_STATES.START_FAILED);
 							return Promise.reject(e);
 						});
@@ -89,19 +90,19 @@ class BaseInjectable {
 				default:
 					this._setStatus(this.STATUS_STATES.SHUTTING_DOWN);
 					if(err){
-						console.error(`Injectable (${this.constructor.name}) encountered a failure scenario and is being shutdown...`,err);
+						log.error(`Injectable (${this.constructor.name}) encountered a failure scenario and is being shutdown...`,err);
 					}
 					this._shuttingdownProm = Promise.resolve()
 						.then(()=>{
 							return this._handleShutdown();
 						})
 						.catch((e)=>{
-							console.error(`Injectable (${this.constructor.name}) failed to shutdown, please make sure things do not need atttending...`,e);
+							log.error(`Injectable (${this.constructor.name}) failed to shutdown, please make sure things do not need atttending...`,e);
 						});
 					return this._shuttingdownProm;
 				}
 			})
-			.catch((e)=>{
+			.catch((e)=>{//eslint-disable-line
 				this._setStatus(this.STATUS_STATES.SHUTDOWN_FAILED);
 			});
 	}

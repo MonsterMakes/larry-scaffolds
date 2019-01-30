@@ -8,5 +8,5 @@
 
 
 ## TODO
-1. Add Bunyan Logger
-2. Add Default Redis behavior
+1. Add Default Redis behavior
+2. Add Default Mongo behavior

@@ -8,7 +8,6 @@ WORKING_DIRECTORY
 .eslintrc.js
 .gitignore
 .npmrc
-package.json
 buildspec.yml
 coverage
 test

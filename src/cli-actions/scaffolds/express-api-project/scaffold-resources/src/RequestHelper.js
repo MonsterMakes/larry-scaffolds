@@ -46,11 +46,11 @@ class RequestHelper {
 	getSignedCookies(){
 		return this._request.signedCookies;
 	}
-	get qeryParams(){
+	get queryParams(){
 		return this.getQueryParams();
 	}
 	getQueryParams(){
-		return this._request.getQueryParams;
+		return this._request.query;
 	}
 	get subDomains(){
 		return this.getSubDomains();
@@ -116,7 +116,7 @@ class RequestHelper {
 			payload: this.getPayload(),
 			cookies: this.getCookies(),
 			signedCookies: this.getSignedCookies(),
-			qeryParams: this.getQueryParams(),
+			queryParams: this.getQueryParams(),
 			subDomains: this.getSubDomains(),
 			authorization: this.getAuthorization(),
 			bearerToken: this.getBearerToken(),
