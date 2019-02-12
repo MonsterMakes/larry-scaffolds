@@ -31,7 +31,7 @@ You can specify a directory to scaffold the project into otherwise it will use t
 
 The above command can be launched directly like so:
 ```
-larry scaffolds scaffold web
+larry-scaffolds scaffold node-git
 ```
 
 #### scaffold web
@@ -45,7 +45,7 @@ You can specify a directory to scaffold the project into otherwise it will use t
 
 The above command can be launched directly like so:
 ```
-larry scaffolds scaffold web
+larry-scaffolds scaffold web-app
 ```
 
 #### scaffold api
@@ -59,7 +59,7 @@ You can specify a directory to scaffold the project into otherwise it will use t
 
 The above command can be launched directly like so:
 ```
-larry scaffolds scaffold web
+larry-scaffolds scaffold express-api
 ```
 
 #### scaffold ws
@@ -73,7 +73,7 @@ You can specify a directory to scaffold the project into otherwise it will use t
 
 The above command can be launched directly like so:
 ```
-larry scaffolds scaffold web
+larry-scaffolds scaffold ws
 ```
 ---
 
