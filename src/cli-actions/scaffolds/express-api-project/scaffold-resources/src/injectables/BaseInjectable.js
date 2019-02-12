@@ -70,7 +70,7 @@ class BaseInjectable {
 							this._setStatus(this.STATUS_STATES.STARTED);
 						})
 						.catch((e)=>{
-							log.error(`Injectable (${this.constructor.name}) failed to startup`,e);
+							log.error({error:e},`Injectable (${this.constructor.name}) failed to startup`);
 							this._setStatus(this.STATUS_STATES.START_FAILED);
 							return Promise.reject(e);
 						});
@@ -90,14 +90,14 @@ class BaseInjectable {
 				default:
 					this._setStatus(this.STATUS_STATES.SHUTTING_DOWN);
 					if(err){
-						log.error(`Injectable (${this.constructor.name}) encountered a failure scenario and is being shutdown...`,err);
+						log.error({error:err},`Injectable (${this.constructor.name}) encountered a failure scenario and is being shutdown...`);
 					}
 					this._shuttingdownProm = Promise.resolve()
 						.then(()=>{
 							return this._handleShutdown();
 						})
 						.catch((e)=>{
-							log.error(`Injectable (${this.constructor.name}) failed to shutdown, please make sure things do not need atttending...`,e);
+							log.error({error:e},`Injectable (${this.constructor.name}) failed to shutdown, please make sure things do not need atttending...`);
 						});
 					return this._shuttingdownProm;
 				}

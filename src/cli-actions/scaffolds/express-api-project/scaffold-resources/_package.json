@@ -52,9 +52,9 @@
 		"chai": "^4.2.0",
 		"chai-as-promised": "^7.1.1",
 		"chai-files": "^1.4.0",
-		"eslint": "^4.17.0",
+		"eslint": "^5.13.0",
 		"mocha": "^5.2.0",
-		"nyc": "^11.4.1",
+		"nyc": "^13.2.0",
 		"chai-http": "^4.2.0",
 		"nodemon": "^1.18.5"
 	}
