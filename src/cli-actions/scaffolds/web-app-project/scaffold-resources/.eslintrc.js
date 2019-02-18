@@ -21,7 +21,8 @@ module.exports = {
 		],
 		"quotes": [
 			"warn",
-			"single"
+			"single", 
+			{ "allowTemplateLiterals": true }
 		],
 		"semi": [
 			"error",

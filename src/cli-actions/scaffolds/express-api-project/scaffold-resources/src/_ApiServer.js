@@ -16,6 +16,7 @@ const pathUtils = require('path');
 const swaggerUi = require('swagger-ui-express');
 const { OpenApiValidator } = require('express-openapi-validate');
 const PromiseUtils = require('./util/PromiseUtils');
+const EventEmitter = require('events');
 
 const STATUS = {
 	UNKNOWN:'UNKNOWN',
@@ -41,12 +42,13 @@ Object.freeze(STATUS);
  * @property {array} injectables - An array of npm package names used to load Injectables.
  * @property {array} injectableLocations - An array of glob patterns used to lookup Injectables.
  */
-class ApiServer{
+class ApiServer extends EventEmitter{
 	/**
 	 * 
 	 * @param {ApiServerOptions} options - Optional settings for this ApiServer
 	 */
 	constructor(options={}){
+		super();
 		this._setStatus(this.STATUS_STATES.INITIALIZING);
 
 		this._expressApp = Express();
@@ -139,7 +141,7 @@ class ApiServer{
 				openapi: '3.0.0',
 				info: {
 					title: pkg.name,
-					version: pkg.versions,
+					version: pkg.version,
 					description: pkg.description,
 					termsOfService: 'http://{{apiWebsite}}/terms',
 					contact: {
@@ -213,7 +215,7 @@ class ApiServer{
 					log.error(e.errorMsg);
 				}
 				else{
-					log.error('Error encountered ->',e);
+					log.error({error:e},'Error encountered ->');
 				}
 				throw e;
 			}
@@ -338,7 +340,7 @@ class ApiServer{
 																return this._loadedMiddlewares[serviceMiddlewareClassName][serviceMiddlewareMethodName](requestHelper,responseHelper);
 															})
 															.catch((e)=>{
-																log.error(`Api Server ({{serverName}}) failed to execute middleware (${middlewareName}).`,e);
+																log.error({error:e},`Api Server ({{serverName}}) failed to execute middleware (${middlewareName}).`);
 																//pass the error along.
 																return Promise.reject(e);
 															});
@@ -450,7 +452,7 @@ class ApiServer{
 				let err = e;
 				if(e.hasOwnProperty('failedIterable')){
 					let injectibleName = e.failedIterable.constructor.name;
-					log.error(`Injectible (${injectibleName}) failed to ${classMethodName}()`,e.failure);
+					log.error({error:e,failure:e.failure},`Injectible (${injectibleName}) failed to ${classMethodName}()`);
 					err = e.failure;
 				}
 				return Promise.reject(err);
@@ -511,7 +513,7 @@ class ApiServer{
 							this._setStatus(this.STATUS_STATES.CONNECTED);
 						})
 						.catch((e)=>{
-							log.error(`Api Server ({{serverName}}) failed to startup`,e);
+							log.error({error:e},`Api Server ({{serverName}}) failed to startup`);
 							this._setStatus(this.STATUS_STATES.START_FAILED);
 							return Promise.reject(e);
 						});
@@ -531,7 +533,7 @@ class ApiServer{
 				default:
 					this._setStatus(this.STATUS_STATES.SHUTTING_DOWN);
 					if(err){
-						log.error(`Api Server ({{serverName}}) encountered a failure scenario and is being shutdown...`,err);
+						log.error({error:err},`Api Server ({{serverName}}) encountered a failure scenario and is being shutdown...`);
 					}
 					this._shuttingdownProm = Promise.resolve()
 						.then(()=>{
@@ -552,22 +554,22 @@ class ApiServer{
 							return this._shutdownInjectables();
 						})
 						.catch((e)=>{
-							log.error(`Api Server ({{serverName}}) failed to shutdown, please make sure things do not need atttending...`,e);
+							log.error({error:e},`Api Server ({{serverName}}) failed to shutdown, please make sure things do not need atttending...`);
 							this._setStatus(this.STATUS_STATES.SHUTDOWN_FAILED);
 						})
 						//FINALLY
 						.then(()=>{
-							log.info(`Api Server ({{serverName}}) exiting...`);
+							log.info(`Api Server ({{serverName}}) exiting...`);//eslint-disable-line
 							if(!exitCode){	
 								if(err){
-									process.exit(1);
+									this.emit('ShutdownComplete',1);
 								}
 								else{
-									process.exit(0);
+									this.emit('ShutdownComplete',0);
 								}
 							}
 							else{
-								process.exit(exitCode);
+								this.emit('ShutdownComplete',exitCode);
 							}	
 						});
 					return this._shuttingdownProm;
@@ -586,15 +588,15 @@ class ApiServer{
 		if (error && error.syscall === 'listen') {
 			switch (error.code) {
 			case 'EACCES':
-				log.error(`Api Server ({{serverName}}) on Address: ${address} and port : ${address.port} requires elevated privileges.`);
+				log.error(`Api Server ({{serverName}}) on Address: requires elevated privileges.`);
 				this.shutdown(error,1);
 				break;
 			case 'EADDRINUSE':
-				log.error(`Api Server ({{serverName}}) on Address: ${address} and port : ${address.port} cannot start port is already in use.`);
+				log.error(`Api Server ({{serverName}}) on Address: cannot start port is already in use.`);
 				this.shutdown(error,1);
 				break;
 			default:
-				log.error(`Api Server ({{serverName}}) internal http server encountered an error.`,error);
+				log.error({error:error},`Api Server ({{serverName}}) internal http server encountered an error.`);
 				this.shutdown(error,1);
 				throw error;
 			}
