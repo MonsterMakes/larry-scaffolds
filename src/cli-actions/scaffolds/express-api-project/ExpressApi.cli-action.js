@@ -13,7 +13,7 @@ class ExpressApiProjectCli extends CliModule {
 	}
 	_init(){
 		this._vorpalInstance
-			.command('scaffold express-api [baseDir]', 'Scaffold a base 12 factor websocket project.')
+			.command('scaffold express-api [baseDir]', 'Scaffold a base 12 factor express project.')
 			.action(function (args, callback) {
 				let baseDirArg = process.cwd();
 				if(args.baseDir){
@@ -70,7 +70,7 @@ class ExpressApiProjectCli extends CliModule {
 						type: 'input',
 						name: 'serverName',
 						message: 'What is the name of the server? Please use snake case (my-name).',
-						default: 'ws'
+						default: 'api'
 					},
 					{
 						type: 'input',

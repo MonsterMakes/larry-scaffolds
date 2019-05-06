@@ -9,3 +9,4 @@ services:
       - ./../../../:/usr/src/app
     ports:
       - '{{portNumber}}:8080'
+      - '9229:9229'

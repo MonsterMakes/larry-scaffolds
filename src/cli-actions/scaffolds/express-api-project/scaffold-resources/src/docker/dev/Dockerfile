@@ -8,5 +8,5 @@ VOLUME /usr/src/app
 RUN npm install
 
 EXPOSE 8080
-
-CMD ["npx", "nodemon", "./src/bin/www"]
+ENV NODE_ENV test
+CMD ["npx", "nodemon", "--inspect=0.0.0.0:9229", "./index"]

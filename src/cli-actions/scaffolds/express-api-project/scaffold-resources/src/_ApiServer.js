@@ -1,6 +1,6 @@
 'use strict';
 
-const log = (require('./src/Logger')).getInstance();
+const log = (require('./Logger')).getInstance();
 const _ = require('lodash');
 const http = require('http');
 const Express =  require('express');
