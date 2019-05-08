@@ -4,5 +4,5 @@ services:
     container_name: {{appName}}
     image: $WebAppImageTag 
     ports:
-      - '8000:80'
+      - '{{portNumber}}:80'
       
