@@ -5,30 +5,24 @@
 	"projects": {
 		"{{appName}}": {
 			"root": "./",
-			"sourceRoot": "./",
+			"sourceRoot": "./src",
 			"projectType": "application",
-			"prefix": "app",
+			"prefix": "{{libraryPrefix}}",
 			"schematics": {
 				"@schematics/angular:class": {},
 				"@schematics/angular:component": {
 					"style": "scss",
-					"spec": false,
-					"path": "src/app/components"
+					"spec": false
 				},
 				"@schematics/angular:directive": {
-					"spec": false,
-					"path": "src/app/directives"
+					"spec": false
 				},
-				"@schematics/angular:module": {
-					"path": "src/app/modules"
-				},
+				"@schematics/angular:module": {},
 				"@schematics/angular:pipe": {
-					"spec": false,
-					"path": "src/app/pipes"
+					"spec": false
 				},
 				"@schematics/angular:service": {
-					"spec": false,
-					"path": "src/app/services"
+					"spec": false
 				}
 			},
 			"architect": {
@@ -43,7 +37,7 @@
 						"assets": [
 							"src/favicon.ico",
 							"src/assets",
-							"environment-details.json"
+							"src/environment-details.json"
 						],
 						"styles": [
 							"src/styles.scss"

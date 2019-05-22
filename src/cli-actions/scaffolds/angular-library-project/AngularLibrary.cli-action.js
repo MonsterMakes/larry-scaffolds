@@ -6,14 +6,14 @@ const os = require('os');
 const pathUtils = require('path');
 const FileScaffolder = require('../../../scaffolders/FileScaffolder');
 
-class AngularAppProjectCli extends CliModule {
+class AngularLibraryProjectCli extends CliModule {
 	constructor(vorpalInstance){
 		super(vorpalInstance);
 		this._init();
 	}
 	_init(){
 		this._vorpalInstance
-			.command('scaffold angular-app [baseDir]', 'Scaffold an Angular web application project.')
+			.command('scaffold angular-library [baseDir]', 'Scaffold an Angular library project.')
 			.action(function (args, callback) {
 				let baseDirArg = process.cwd();
 				if(args.baseDir){
@@ -68,18 +68,6 @@ class AngularAppProjectCli extends CliModule {
 					},
 					{
 						type: 'input',
-						name: 'appName',
-						message: 'What is the name of the webapp? Please use snake case (my-name).',
-						default: 'web'
-					},
-					{
-						type: 'input',
-						name: 'portNumber',
-						message: 'What port do you want to expose the webapp on?',
-						default: '8000'
-					},
-					{
-						type: 'input',
 						name: 'libraryPrefix',
 						message: 'What prefeix would you like to use for you components?',
 						default: 'lry' 
@@ -107,4 +95,4 @@ class AngularAppProjectCli extends CliModule {
 			});
 	}
 }
-module.exports = AngularAppProjectCli;
+module.exports = AngularLibraryProjectCli;
