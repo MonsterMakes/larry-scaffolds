@@ -41,36 +41,49 @@ class FileScaffolder extends BaseScaffolder{
 				let destinationPath = this._getDestinationPath(relativePath);
 				let filename = pathUtils.basename(destinationPath);
 
-				let generatorConfig = {
-					//fully resolved path to the file
-					sourcePath: fullPath,
-					//relative path within destinationDir
-					path: relativePath
-				};
 				//check the file type
 				if(filename.startsWith('_')){
-					destinationPath = pathUtils.dirname(destinationPath)+pathUtils.sep+filename.substr(1);
-					generatorConfig.path = destinationPath;
-					generatorKlass = HandlebarsSourceGenerator;
-					//handlebars template data
-					generatorConfig.templateData = this._scaffoldData;
+					let generatorConfig = {
+						//fully resolved path to the file
+						sourcePath: fullPath,
+						//relative path within destinationDir
+						path: relativePath
+					};
+					let generator;
+					proms.push(Promise.resolve()
+						.then(()=>{
+							destinationPath = pathUtils.dirname(destinationPath)+pathUtils.sep+filename.substr(1);
+							generatorConfig.path = destinationPath;
+							generatorKlass = HandlebarsSourceGenerator;
+							//handlebars template data
+							generatorConfig.templateData = this._scaffoldData;
+							generator = new generatorKlass(generatorConfig);
+						})
+						.then(()=>{
+							return generator.generate();
+						})
+						.then(()=>{
+							fs.writeFileSync(
+								`${this._destinationDir}${pathUtils.sep}${generator.path}`,
+								generator.sourceCode,
+								{
+									encoding: 'utf8',
+									mode: stats.mode
+								}
+							);
+						})
+					);
 				}
-			
-				let generator = new generatorKlass(generatorConfig);
-				proms.push(Promise.resolve()
-					.then(()=>{
-						return generator.generate();
-					})
-					.then(()=>{
-						fs.writeFileSync(
-							`${this._destinationDir}${pathUtils.sep}${generator.path}`,
-							generator.sourceCode,
-							{
-								encoding: 'utf8',
-								mode: stats.mode
-							}
-						);
-					}));
+				else{
+					proms.push(Promise.resolve()
+						.then(()=>{
+							fs.copyFileSync(
+								fullPath,
+								pathUtils.join(this._destinationDir,relativePath)
+							);
+						})
+					);
+				}
 			}
 		});
 		return Promise.all(proms);

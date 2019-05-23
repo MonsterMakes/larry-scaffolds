@@ -81,9 +81,15 @@ class AngularAppProjectCli extends CliModule {
 					{
 						type: 'input',
 						name: 'libraryPrefix',
-						message: 'What prefeix would you like to use for you components?',
+						message: 'What prefix would you like to use for you components?',
 						default: 'lry' 
-					}
+					},
+					{
+						type: 'confirm',
+						name: 'authEnabled',
+						message: 'Would you like to add authentication?',
+						default: false 
+					},
 				]).then(answers => {
 					if(answers.projectName.startsWith('@')){
 						let split = answers.projectName.slice(1).split('/');
@@ -100,6 +106,22 @@ class AngularAppProjectCli extends CliModule {
 						baseDir
 					);
 					return scfldr.scaffold()
+						.then(()=>{
+							if(answers.authEnabled){							
+								answers.authProjectName = '@monstermakes/larry-identity-angular';
+								let split = answers.authProjectName.slice(1).split('/');
+								answers.authGithubProjectUser = split[0];
+								answers.authGithubProjectName = split[1];
+								answers.authRelativeLocation = '../';
+								// TODO could in the future add smarts to this to generically bring in library projects
+								let authScfldr = new FileScaffolder(
+									`${__dirname}/auth-scaffold-resources`, 
+									answers, 
+									baseDir
+								);
+								return authScfldr.scaffold();
+							}
+						})
 						.then(()=>{
 							callback();
 						});
