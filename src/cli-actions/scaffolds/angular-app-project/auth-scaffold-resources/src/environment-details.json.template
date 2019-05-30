@@ -2,6 +2,7 @@
 	"uam": {
 		"apiUrl": "UPDATE_ME",
 		"clientId": "UPDATE_ME",
-		"roleClaim": "UPDATE_ME"
+		"roleClaim": "UPDATE_ME",
+		"activeAccountIdClaim":"UPDATE_ME"
 	}
 }

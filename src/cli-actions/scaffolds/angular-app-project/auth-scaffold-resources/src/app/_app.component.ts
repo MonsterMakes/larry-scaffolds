@@ -8,9 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
-	title = 'web';
-	constructor( private _authService: AuthService, private _currentRoute: ActivatedRoute) {
+export class AppComponent implements OnInit, OnDestroy { 
+	title = '{{appName}}';
+	constructor( private _authService: AuthService) {
 	}
 	ngOnInit() {
 		let routePath = window.location.pathname;
@@ -32,11 +32,9 @@ export class AppComponent implements OnInit, OnDestroy {
 			});
 		}
 		if(notBlacklisted){
-			let jsonStr = JSON.stringify({
+			this._authService.login({
 				redirectUri: routePath
 			});
-			let encodedStateParam = AuthService.base64UrlEncode(jsonStr);
-			this._authService.login(encodedStateParam);
 		}
 	}
 	ngOnDestroy() {
