@@ -17,6 +17,7 @@
 		"test-coverage": "echo '=> TODO Run cypress Tests w/ Coverage...'",
 		"clean-build": "echo '=> Cleaning dist...' && rm -rf dist",
 		"start": "npm run serve-dev",
+		"serve-angular": "echo '=> Running app in Angular mode...' && npx ng serve --host 0.0.0.0 --disable-host-check",
 		"serve-dev": "echo '=> Running app in Development mode...' && docker-compose -f ./src/docker/dev/docker-compose.yml up --build",
 		"serve": "echo '=> Running app in Production mode...' && npm run build-artifacts && export WebAppImageTag=$(node -e 'console.log(`${process.env.npm_package_name}:${process.env.npm_package_version}`.slice(1));') && docker-compose -f ./src/docker/prod/docker-compose.yml up",
 		"serve-ci-detached": "echo '=> Running app in CI mode (detached)...' && npm run build-artifacts && export WebAppImageTag=$(node -e 'console.log(`${process.env.npm_package_name}:${process.env.npm_package_version}`.slice(1));') && docker-compose -f ./src/docker/ci/docker-compose.yml up -d && wget --retry-connrefused --tries=7 --spider 127.0.0.1:{{portNumber}}/health-check && echo '=> App now running in CI mode!'",
@@ -24,12 +25,16 @@
 		"build-docker-prod": "docker build -f ./src/docker/prod/Dockerfile -t $(node -e 'console.log(`${process.env.npm_package_name}:${process.env.npm_package_version}`.slice(1));') .",
 		"build-artifacts": "npm run clean-build && echo '=> Building all artifacts...' && npm run build-web && npm run build-docker-prod"
 	},
+	"peerDependencies": {
+		"jwt-decode": "^2.2.0",
+    	"node-forge": "^0.8.3"
+	},
 	"dependencies": {
+		"jwt-decode": "^2.2.0",
+    	"node-forge": "^0.8.3"
 	},
 	"devDependencies": {
 		"{{authProjectName}}": "*",
-		"jwt-decode": "^2.2.0",
-    	"node-forge": "^0.8.3",
 		"@angular/animations": "~7.2.0",
 		"@angular/common": "~7.2.0",
 		"@angular/compiler": "~7.2.0",

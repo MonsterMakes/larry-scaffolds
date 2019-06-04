@@ -19,10 +19,6 @@
       "dom"
 	],
 	"paths": {
-		"{{authProjectName}}": [
-			"node_modules/{{authProjectName}}",
-			"../{{authGithubProjectName}}/dist/{{authGithubProjectName}}"
-		],
 		"@angular/*": ["node_modules/@angular/*"]
 	}
   }
