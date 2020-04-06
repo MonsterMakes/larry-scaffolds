@@ -76,6 +76,8 @@ class NodeProjectCli extends CliModule {
 						answers.githubProjectUser = answers.projectOwner;
 						answers.githubProjectName = answers.projectName;
 					}
+					answers.escapedProjectName = require('querystring').escape(answers.projectName);
+					
 					let scfldr = new FileScaffolder(
 						`${__dirname}/scaffold-resources`, 
 						answers, 
