@@ -1,3 +1,4 @@
+THIS PROJECT IS NOW BEING MAINTAINED IN THE LARRY (https://github.com/MonsterMakes/larry) MONOREPO
 # larry-scaffolds
 [![npm version](https://badge.fury.io/js/%40monstermakes%2Flarry-scaffolds.svg)](https://badge.fury.io/js/%40monstermakes%2Flarry-scaffolds)
 
